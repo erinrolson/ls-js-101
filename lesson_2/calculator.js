@@ -45,7 +45,7 @@ while (!['1', '2', '3', '4'].includes(operator)) {
 // perform correct operation for user
 let result;
 
-switch(operator) {
+switch (operator) {
   case '1':
     result = num1 + num2;
     break;
