@@ -23,14 +23,19 @@ let operator = readline.question();
 // perform correct operation for user
 let result;
 
-if (operator === '1') {
- result = num1 + num2;
-} else if (operator === '2') {
-  result = num1 - num2;
-} else if (operator === '3') {
-  result = num1 * num2;
-} else if (operator === '4') {
-  result = num1 / num2;
+switch(operator){
+  case '1':
+    result = num1 + num2;
+    break;
+  case '2':
+    result = num1 - num2;
+    break;
+  case '3':
+    result = num1 * num2;
+    break;
+  case '4':
+    result = num1 / num2;
+    break;
 }
 // display result
 prompt(`The result is: ${result}`);
