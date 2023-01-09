@@ -1,0 +1,11 @@
+{
+  "execute" : "Do you want to calculate again? Enter: y or yes",
+  "greet" : "Hello, User! Welcome to the Calculator!",
+  "firstNum" : "Provide first number:",
+  "firstNumInvalid" : "Provide a VALID first number:",
+  "secondNum" : "Provide the second number:",
+  "secondNumInvalid" : "Provide a VALID second number:",
+  "operator" : "What operation?\n1) Add 2) Subtract 3) Multiply 4) Divide",
+  "operatorInvalid" : "Provide a VALID operator number:",
+  "result" : "The result is:"
+}
