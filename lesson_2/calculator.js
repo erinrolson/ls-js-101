@@ -5,20 +5,42 @@ function prompt(message) {
   console.log(`=> ${message}`);
 }
 
+function invalidNumber(number){
+  return number.trimStart() === '' || Number.isNaN(Number(number));
+}
+
 // greet user
 prompt('Hello, User! Welcome to the Calculator!');
 
 // get first number from user
 prompt('Provide first number:');
-let num1 = Number(readline.question());
+let num1 = readline.question();
+
+while (invalidNumber(num1)) {
+  prompt('Provide a VALID first number:');
+  num1 = readline.question();
+}
+Number(num1);
+
 
 // get second number from user
 prompt('Provide the second number:');
-let num2 = Number(readline.question());
+let num2 = readline.question();
+
+while (invalidNumber(num2)) {
+  prompt('Provide a VALID second number:');
+  num2 = readline.question();
+}
+Number(num2);
 
 // get operation from user
-prompt('What operation?\n1) Add 2) Subtract 3) Multiply 4) Divide\n');
+prompt('What operation?\n1) Add 2) Subtract 3) Multiply 4) Divide');
 let operator = readline.question();
+
+while (!['1', '2', '3', '4'].includes(operator)) {
+  prompt('Provide a VALID operator number:');
+  operator = readline.question();
+}
 
 // perform correct operation for user
 let result;
