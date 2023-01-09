@@ -5,7 +5,7 @@ function prompt(message) {
   console.log(`=> ${message}`);
 }
 
-function invalidNumber(number){
+function invalidNumber(number) {
   return number.trimStart() === '' || Number.isNaN(Number(number));
 }
 
@@ -45,7 +45,7 @@ while (!['1', '2', '3', '4'].includes(operator)) {
 // perform correct operation for user
 let result;
 
-switch(operator){
+switch(operator) {
   case '1':
     result = num1 + num2;
     break;
