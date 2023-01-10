@@ -76,6 +76,7 @@ function invalidNumber(number) {
 }
 
 // START
+console.clear();
 
 prompt(messageConfig.greet);
 prompt(messageConfig.description);
@@ -119,5 +120,7 @@ loan["monthlyRate"] = monthlyRate;
 console.log(loan);
 
 loan["monthlyPayment"] = loan.totalBorrowed * (loan.monthlyRate / (1 - Math.pow((1 + loan.monthlyRate), (-loan.termMonths))));
+loan["interestPaid"] = (loan.monthlyPayment.toFixed(2) * loan.termMonths) - loan.totalBorrowed;
 
 prompt(`${messageConfig.result} $${loan.monthlyPayment.toFixed(2)}`);
+prompt(`${messageConfig.interestPaid} $${loan.interestPaid.toFixed(2)}`);

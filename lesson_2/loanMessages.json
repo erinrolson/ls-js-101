@@ -6,5 +6,6 @@
   "annualPercentageRateInvalid" : "Must enter a positive number:",
   "termMonths"                  : "Loan Term (months):",
   "invalidNumber"               : "Must enter a positive integer:",
-  "result"                      : "Your total monthly payment is:"
+  "result"                      : "Your total monthly payment is:",
+  "interestPaid"                : "Your total interest paid is:"
 }
