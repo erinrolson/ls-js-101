@@ -1,10 +1,11 @@
 {
-  "greet" : "==> Hello, User! Welcome to the Monthly Loan Payment Calculator!",
-  "loanTotal" : "==> Total loan amount:",
-  "annualPercentRate" : "==> Annual Percentage Rate (APR)? Provide a percentage value:",
-  "termYears" : "==> Loan Term (years):",
-  "termYearsInvalid" : "==> Provide a VALID year value:",
-  "termMonths" : "==> Loan Term (months):",
-  "termMonthsInvalid" : "==> Provide a VALID month value:",
-  "result" : "==> Your total monthly payment is:"
+  "greet"                       : "Hello, User! Welcome to the Monthly Loan Payment Calculator!",
+  "description"                 : "You'll be prompted to enter details about your loan so we can calculate your monthly payment.",
+  "loanTotal"                   : "Total loan amount:",
+  "loanTotalInvalid"            : "Provide a VALID loan total value:",
+  "annualPercentageRate"           : "Annual Percentage Rate (APR)? Provide a percentage value:",
+  "annualPercentageRateInvalid" : "Provide a VALID Annual Percentage Rate (APR) value:",
+  "termMonths"                  : "Loan Term (months):",
+  "termMonthsInvalid"           : "Provide a VALID month value:",
+  "result"                      : "Your total monthly payment is:"
 }
