@@ -1,0 +1,10 @@
+{
+  "greet" : "==> Hello, User! Welcome to the Monthly Loan Payment Calculator!",
+  "loanTotal" : "==> Total loan amount:",
+  "annualPercentRate" : "==> Annual Percentage Rate (APR)? Provide a percentage value:",
+  "termYears" : "==> Loan Term (years):",
+  "termYearsInvalid" : "==> Provide a VALID year value:",
+  "termMonths" : "==> Loan Term (months):",
+  "termMonthsInvalid" : "==> Provide a VALID month value:",
+  "result" : "==> Your total monthly payment is:"
+}
