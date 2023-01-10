@@ -88,7 +88,7 @@ let totalBorrowed = readline.question();
 
 //validate total loan value input by user
 while (invalidNumber(totalBorrowed)) {
-  prompt(messageConfig.loanTotalInvalid);
+  prompt(messageConfig.invalidNumber);
   totalBorrowed = readline.question();
 }
 
@@ -100,7 +100,7 @@ let termMonths = readline.question();
 //dont allow users to provide moths as a decimal...
 
 while (invalidNumber(termMonths) || (termMonths % 1) > 0) {
-  prompt(messageConfig.termMonthsInvalid);
+  prompt(messageConfig.invalidNumber);
   termMonths = readline.question();
 }
 

@@ -2,10 +2,9 @@
   "greet"                       : "Hello, User! Welcome to the Monthly Loan Payment Calculator!",
   "description"                 : "You'll be prompted to enter details about your loan so we can calculate your monthly payment.",
   "loanTotal"                   : "Total loan amount:",
-  "loanTotalInvalid"            : "Provide a VALID loan total value:",
-  "annualPercentageRate"           : "Annual Percentage Rate (APR)? Provide a percentage value:",
-  "annualPercentageRateInvalid" : "Provide a VALID Annual Percentage Rate (APR) value:",
+  "annualPercentageRate"        : "Annual Percentage Rate (APR)? Example: 6 for 6% or 3.5 for 3.5%\nProvide a percentage value:",
+  "annualPercentageRateInvalid" : "Must enter a positive number:",
   "termMonths"                  : "Loan Term (months):",
-  "termMonthsInvalid"           : "Provide a VALID month value:",
+  "invalidNumber"               : "Must enter a positive integer:",
   "result"                      : "Your total monthly payment is:"
 }
