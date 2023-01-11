@@ -75,52 +75,63 @@ function invalidNumber(number) {
          number.trimStart() === '';
 }
 
-// START
-console.clear();
-
-prompt(messageConfig.greet);
-prompt(messageConfig.description);
-
-// create a loan object
-const loan = {};
-
-prompt(messageConfig.loanTotal);
-let totalBorrowed = readline.question();
-
-//validate total loan value input by user
-while (invalidNumber(totalBorrowed)) {
-  prompt(messageConfig.invalidNumber);
-  totalBorrowed = readline.question();
+function executeAgain() {
+  prompt(messageConfig.execute);
+  let run = readline.question();
+  run = run.toUpperCase();
+  switch (run) {
+    case 'Y':
+    case 'YES':
+      return true;
+    default: return false;
+  }
 }
 
-loan["totalBorrowed"] = Number(totalBorrowed);
-
-prompt(messageConfig.termMonths);
-let termMonths = readline.question();
-
-//dont allow users to provide moths as a decimal...
-
-while (invalidNumber(termMonths) || (termMonths % 1) > 0) {
-  prompt(messageConfig.invalidNumber);
-  termMonths = readline.question();
-}
-
-loan["termMonths"] = Number(termMonths);
-
-prompt(messageConfig.annualPercentageRate);
-let apr = readline.question();
-
-while (invalidNumber(apr)) {
-  prompt(messageConfig.annualPercentageRateInvalid);
-  apr = readline.question();
-}
-let monthlyRate = (Number(apr) / 100) / 12;
-loan["monthlyRate"] = monthlyRate;
-
-console.log(loan);
-
-loan["monthlyPayment"] = loan.totalBorrowed * (loan.monthlyRate / (1 - Math.pow((1 + loan.monthlyRate), (-loan.termMonths))));
-loan["interestPaid"] = (loan.monthlyPayment.toFixed(2) * loan.termMonths) - loan.totalBorrowed;
-
-prompt(`${messageConfig.result} $${loan.monthlyPayment.toFixed(2)}`);
-prompt(`${messageConfig.interestPaid} $${loan.interestPaid.toFixed(2)}`);
+do {
+  console.clear();
+  
+  prompt(messageConfig.greet);
+  prompt(messageConfig.description);
+  
+  // create a loan object
+  const loan = {};
+  
+  prompt(messageConfig.loanTotal);
+  let totalBorrowed = readline.question();
+  
+  //validate total loan value input by user
+  while (invalidNumber(totalBorrowed)) {
+    prompt(messageConfig.invalidNumber);
+    totalBorrowed = readline.question();
+  }
+  
+  loan["totalBorrowed"] = Number(totalBorrowed);
+  
+  prompt(messageConfig.termMonths);
+  let termMonths = readline.question();
+  
+  //dont allow users to provide moths as a decimal...
+  
+  while (invalidNumber(termMonths) || (termMonths % 1) > 0) {
+    prompt(messageConfig.invalidNumber);
+    termMonths = readline.question();
+  }
+  
+  loan["termMonths"] = Number(termMonths);
+  
+  prompt(messageConfig.annualPercentageRate);
+  let apr = readline.question();
+  
+  while (invalidNumber(apr)) {
+    prompt(messageConfig.annualPercentageRateInvalid);
+    apr = readline.question();
+  }
+  let monthlyRate = (Number(apr) / 100) / 12;
+  loan["monthlyRate"] = monthlyRate;
+  
+  loan["monthlyPayment"] = loan.totalBorrowed * (loan.monthlyRate / (1 - Math.pow((1 + loan.monthlyRate), (-loan.termMonths))));
+  loan["interestPaid"] = (loan.monthlyPayment.toFixed(2) * loan.termMonths) - loan.totalBorrowed;
+  
+  prompt(`${messageConfig.result} $${loan.monthlyPayment.toFixed(2)}`);
+  prompt(`${messageConfig.interestPaid} $${loan.interestPaid.toFixed(2)}`);
+} while (executeAgain());
