@@ -7,5 +7,6 @@
   "termMonths"                  : "Loan Term (months):",
   "invalidNumber"               : "Must enter a positive integer:",
   "result"                      : "Your total monthly payment is:",
-  "interestPaid"                : "Your total interest paid is:"
+  "interestPaid"                : "Your total interest paid over the term of the loan is:",
+  "execute"                     : "Do you want to calculate again? Enter: y or yes"
 }
