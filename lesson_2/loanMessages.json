@@ -8,5 +8,6 @@
   "invalidNumber"               : "Must enter a positive integer:",
   "result"                      : "Your total monthly payment is:",
   "interestPaid"                : "Your total interest paid over the term of the loan is:",
-  "execute"                     : "Do you want to calculate again? Enter: y or yes"
+  "execute"                     : "Do you want to calculate again? Enter: y or yes",
+  "predatory"                   : "WARNING: You may have a predatory loan!\nLoans over 16% APR aren't typical of quality financial products."
 }

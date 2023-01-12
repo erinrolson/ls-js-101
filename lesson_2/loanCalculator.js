@@ -126,6 +126,9 @@ do {
     prompt(messageConfig.annualPercentageRateInvalid);
     apr = readline.question();
   }
+  
+  if (Number(apr) >= 16) { prompt(messageConfig.predatory); }
+  
   let monthlyRate = (Number(apr) / 100) / 12;
   loan["monthlyRate"] = monthlyRate;
   
