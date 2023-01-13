@@ -16,7 +16,7 @@ function userWon(uChoice, cChoice) {
       (uChoice === 'scissors') && (cChoice === 'paper'));
 }
 
-function playAgain() {
+function playAgain() { //simplify this
   prompt('Do you want to play again? Enter "y" or "n":');
   let answer = readline.question().trim().toLowerCase();
   while (!VALID_ANSWERS.includes(answer)) {

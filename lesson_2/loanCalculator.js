@@ -96,41 +96,40 @@ do {
   const loan = {};
 
   prompt(messageConfig.loanTotal);
-  let totalBorrowed = readline.question();
+  let totalBorrowed = Number(readline.question());
 
-  //validate total loan value input by user
+  // validate total loan value input by user
   while (invalidNumber(totalBorrowed)) {
     prompt(messageConfig.invalidNumber);
     totalBorrowed = readline.question();
   }
 
-  loan["totalBorrowed"] = Number(totalBorrowed);
+  loan["totalBorrowed"] = totalBorrowed;
 
   prompt(messageConfig.termMonths);
-  let termMonths = readline.question();
+  let termMonths = Number(readline.question());
 
-  //dont allow users to provide moths as a decimal...
-
+  // don't allow users to provide months as a decimal
   while (invalidNumber(termMonths) || (termMonths % 1) > 0) {
     prompt(messageConfig.invalidNumber);
     termMonths = readline.question();
   }
 
-  loan["termMonths"] = Number(termMonths);
+  loan["termMonths"] = termMonths;
 
   prompt(messageConfig.annualPercentageRate);
-  let apr = readline.question();
+  let apr = Number(readline.question());
 
   while (invalidNumber(apr)) {
     prompt(messageConfig.annualPercentageRateInvalid);
     apr = readline.question();
   }
 
-  if (Number(apr) >= 16) {
+  if (apr >= 16) {
     prompt(messageConfig.predatory);
   }
 
-  let monthlyRate = (Number(apr) / 100) / 12;
+  let monthlyRate = (apr / 100) / 12;
   loan["monthlyRate"] = monthlyRate;
 
   loan["monthlyPayment"] = loan.totalBorrowed * (loan.monthlyRate / (1 - Math.pow((1 + loan.monthlyRate), (-loan.termMonths))));
