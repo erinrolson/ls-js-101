@@ -71,8 +71,7 @@ function prompt(message) {
 }
 
 function invalidNumber(number) {
-  return [-1, 0, -0, NaN].includes(Math.sign(number)) ||
-         number.trimStart() === '';
+  return !Number.isFinite(number) || [-1, 0, -0].includes(Math.sign(number));
 }
 
 function executeAgain() {
