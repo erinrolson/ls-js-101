@@ -67,7 +67,12 @@ const readline = require("readline-sync");
 const messageConfig = require("./loanMessages.json");
 
 function prompt(message) {
-  console.log(`==> ${message}`);
+  console.log(`\n==> ${message}`);
+}
+
+function greetUser() {
+  prompt(messageConfig.greet);
+  prompt(messageConfig.description);
 }
 
 function invalidNumber(number) {
@@ -86,55 +91,69 @@ function executeAgain() {
   }
 }
 
+function displayResults(loanObj) {
+  console.log(`Total Borrowed: $${loanObj.totalBorrowed}`);
+  console.log(`Loan Term: ${loanObj.termMonths} Months`);
+  console.log(`APR: ${loanObj.apr}%`);
+  console.log('=========================\n');
+  prompt(`${messageConfig.result} \n$${loanObj.monthlyPayment.toFixed(2)}`);
+}
+
+function getUserInput(configMessage) {
+  prompt(configMessage);
+  return Number(readline.question());
+}
+
+function checkUserInput(number, errorMessage, allowDecimal = true) {
+  while (allowDecimal ? invalidNumber(number) : invalidNumber(number) || (number % 1) > 0) {
+    prompt(errorMessage); 
+    number = Number(readline.question());
+  }
+  return number;
+}
+
+function predatoryLoan(number){
+  if (number >= 16) {
+    prompt(messageConfig.predatory + '\n');
+  }
+}
+
+function loanSolve(loanObj) {
+  return loanObj.totalBorrowed * (loanObj.monthlyRate / 
+  (1 - Math.pow((1 + loanObj.monthlyRate), (-loanObj.termMonths))));
+}
+
 do {
   console.clear();
 
-  prompt(messageConfig.greet);
-  prompt(messageConfig.description);
+  greetUser();
 
-  // create a loan object
   const loan = {};
-
-  prompt(messageConfig.loanTotal);
-  let totalBorrowed = Number(readline.question());
-
-  // validate total loan value input by user
-  while (invalidNumber(totalBorrowed)) {
-    prompt(messageConfig.invalidNumber);
-    totalBorrowed = readline.question();
-  }
-
+  
+  // get users total borrowed money, validate, save to object
+  let totalBorrowed = getUserInput(messageConfig.loanTotal);
+  totalBorrowed = checkUserInput(totalBorrowed, messageConfig.invalidNumber, true);
   loan["totalBorrowed"] = totalBorrowed;
-
-  prompt(messageConfig.termMonths);
-  let termMonths = Number(readline.question());
-
-  // don't allow users to provide months as a decimal
-  while (invalidNumber(termMonths) || (termMonths % 1) > 0) {
-    prompt(messageConfig.invalidNumber);
-    termMonths = readline.question();
-  }
-
+  
+  // get users loan term length, validate, save to object
+  let termMonths = getUserInput(messageConfig.termMonths);
+  termMonths = checkUserInput(termMonths, messageConfig.invalidNumber, false);
   loan["termMonths"] = termMonths;
+  
+  // get user apr, validate, save to object
+  let apr = getUserInput(messageConfig.annualPercentageRate);
+  apr = checkUserInput(apr, messageConfig.annualPercentageRateInvalid, true);
+  loan["apr"] = apr;
+  
+  console.clear();
+  
+  predatoryLoan(apr);
 
-  prompt(messageConfig.annualPercentageRate);
-  let apr = Number(readline.question());
+  loan["monthlyRate"] = (loan.apr / 100) / 12;
 
-  while (invalidNumber(apr)) {
-    prompt(messageConfig.annualPercentageRateInvalid);
-    apr = readline.question();
-  }
-
-  if (apr >= 16) {
-    prompt(messageConfig.predatory);
-  }
-
-  let monthlyRate = (apr / 100) / 12;
-  loan["monthlyRate"] = monthlyRate;
-
-  loan["monthlyPayment"] = loan.totalBorrowed * (loan.monthlyRate / (1 - Math.pow((1 + loan.monthlyRate), (-loan.termMonths))));
-  loan["interestPaid"] = (loan.monthlyPayment.toFixed(2) * loan.termMonths) - loan.totalBorrowed;
-
-  prompt(`${messageConfig.result} $${loan.monthlyPayment.toFixed(2)}`);
-  prompt(`${messageConfig.interestPaid} $${loan.interestPaid.toFixed(2)}`);
+  loan["monthlyPayment"] = loanSolve(loan);
+  
+  displayResults(loan);
 } while (executeAgain());
+
+prompt(messageConfig.goodbye);

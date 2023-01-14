@@ -9,5 +9,6 @@
   "result"                      : "Your total monthly payment is:",
   "interestPaid"                : "Your total interest paid over the term of the loan is:",
   "execute"                     : "Do you want to calculate again? Enter: y or yes (any other key to exit)",
-  "predatory"                   : "WARNING: You may have a predatory loan!\nLoans over 16% APR aren't typical of quality financial products."
+  "predatory"                   : "WARNING: You may have a predatory loan!\nLoans over 16% APR aren't typical of quality financial products.",
+  "goodbye"                     : "Thanks for using the Loan Calculator. Goodbye."
 }
