@@ -104,7 +104,7 @@ function invalidNumber(number) {
   return !Number.isFinite(number) || [-1, 0, -0].includes(Math.sign(number));
 }
 
-function checkUserInput(number, errorMessage, allowDecimal = true) {
+function checkUserNumber(number, errorMessage, allowDecimal = true) {
   while (allowDecimal ? invalidNumber(number) : invalidNumber(number) ||
                                                 (number % 1) > 0) 
   {
@@ -134,17 +134,17 @@ do {
 
   // get users total borrowed money, validate, save to object
   let totalBorrowed = getUserNumber(messageConfig.loanTotal);
-  totalBorrowed = checkUserInput(totalBorrowed, messageConfig.invalidNumber, true);
+  totalBorrowed = checkUserNumber(totalBorrowed, messageConfig.invalidNumber, true);
   loan["totalBorrowed"] = totalBorrowed;
 
   // get users loan term length, validate, save to object
   let termMonths = getUserNumber(messageConfig.termMonths);
-  termMonths = checkUserInput(termMonths, messageConfig.invalidNumber, false);
+  termMonths = checkUserNumber(termMonths, messageConfig.invalidNumber, false);
   loan["termMonths"] = termMonths;
 
   // get user apr, validate, save to object
   let apr = getUserNumber(messageConfig.annualPercentageRate);
-  apr = checkUserInput(apr, messageConfig.annualPercentageRateInvalid, true);
+  apr = checkUserNumber(apr, messageConfig.annualPercentageRateInvalid, true);
   loan["apr"] = apr;
 
   console.clear();
