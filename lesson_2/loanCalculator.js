@@ -95,7 +95,7 @@ function displayResults(loanObj) {
   prompt(`${messageConfig.result} \n$${loanObj.monthlyPayment.toFixed(2)}`);
 }
 
-function getUserInput(configMessage) {
+function getUserNumber(configMessage) {
   prompt(configMessage);
   return Number(readline.question());
 }
@@ -106,7 +106,8 @@ function invalidNumber(number) {
 
 function checkUserInput(number, errorMessage, allowDecimal = true) {
   while (allowDecimal ? invalidNumber(number) : invalidNumber(number) ||
-                                                (number % 1) > 0) {
+                                                (number % 1) > 0) 
+  {
     prompt(errorMessage);
     number = Number(readline.question());
   }
@@ -132,17 +133,17 @@ do {
   const loan = {};
 
   // get users total borrowed money, validate, save to object
-  let totalBorrowed = getUserInput(messageConfig.loanTotal);
+  let totalBorrowed = getUserNumber(messageConfig.loanTotal);
   totalBorrowed = checkUserInput(totalBorrowed, messageConfig.invalidNumber, true);
   loan["totalBorrowed"] = totalBorrowed;
 
   // get users loan term length, validate, save to object
-  let termMonths = getUserInput(messageConfig.termMonths);
+  let termMonths = getUserNumber(messageConfig.termMonths);
   termMonths = checkUserInput(termMonths, messageConfig.invalidNumber, false);
   loan["termMonths"] = termMonths;
 
   // get user apr, validate, save to object
-  let apr = getUserInput(messageConfig.annualPercentageRate);
+  let apr = getUserNumber(messageConfig.annualPercentageRate);
   apr = checkUserInput(apr, messageConfig.annualPercentageRateInvalid, true);
   loan["apr"] = apr;
 
