@@ -75,10 +75,6 @@ function greetUser() {
   prompt(messageConfig.description);
 }
 
-function invalidNumber(number) {
-  return !Number.isFinite(number) || [-1, 0, -0].includes(Math.sign(number));
-}
-
 function executeAgain() {
   prompt(messageConfig.execute);
   let run = readline.question();
@@ -104,22 +100,27 @@ function getUserInput(configMessage) {
   return Number(readline.question());
 }
 
+function invalidNumber(number) {
+  return !Number.isFinite(number) || [-1, 0, -0].includes(Math.sign(number));
+}
+
 function checkUserInput(number, errorMessage, allowDecimal = true) {
-  while (allowDecimal ? invalidNumber(number) : invalidNumber(number) || (number % 1) > 0) {
-    prompt(errorMessage); 
+  while (allowDecimal ? invalidNumber(number) : invalidNumber(number) ||
+                                                (number % 1) > 0) {
+    prompt(errorMessage);
     number = Number(readline.question());
   }
   return number;
 }
 
-function predatoryLoan(number){
+function predatoryLoan(number) {
   if (number >= 16) {
     prompt(messageConfig.predatory + '\n');
   }
 }
 
 function loanSolve(loanObj) {
-  return loanObj.totalBorrowed * (loanObj.monthlyRate / 
+  return loanObj.totalBorrowed * (loanObj.monthlyRate /
   (1 - Math.pow((1 + loanObj.monthlyRate), (-loanObj.termMonths))));
 }
 
@@ -129,30 +130,30 @@ do {
   greetUser();
 
   const loan = {};
-  
+
   // get users total borrowed money, validate, save to object
   let totalBorrowed = getUserInput(messageConfig.loanTotal);
   totalBorrowed = checkUserInput(totalBorrowed, messageConfig.invalidNumber, true);
   loan["totalBorrowed"] = totalBorrowed;
-  
+
   // get users loan term length, validate, save to object
   let termMonths = getUserInput(messageConfig.termMonths);
   termMonths = checkUserInput(termMonths, messageConfig.invalidNumber, false);
   loan["termMonths"] = termMonths;
-  
+
   // get user apr, validate, save to object
   let apr = getUserInput(messageConfig.annualPercentageRate);
   apr = checkUserInput(apr, messageConfig.annualPercentageRateInvalid, true);
   loan["apr"] = apr;
-  
+
   console.clear();
-  
+
   predatoryLoan(apr);
 
   loan["monthlyRate"] = (loan.apr / 100) / 12;
 
   loan["monthlyPayment"] = loanSolve(loan);
-  
+
   displayResults(loan);
 } while (executeAgain());
 
