@@ -1,6 +1,11 @@
 const readline = require('readline-sync');
 const VALID_CHOICES = ['rock', 'paper', 'scissors'];
 const VALID_ANSWERS = ['y', 'n'];
+const WINNING_COMBOS = {
+  rock:     ['scissors'],
+  paper:    ['rock'],
+  scissors: ['paper']
+}
 
 function prompt(message) {
   console.log(`==> ${message}`);
@@ -11,9 +16,7 @@ function randomIndex() {
 }
 
 function userWon(uChoice, cChoice) {
-  return ((uChoice === 'rock') && (cChoice === 'scissors') ||
-      (uChoice === 'paper') && (cChoice === 'rock') ||
-      (uChoice === 'scissors') && (cChoice === 'paper'));
+  return WINNING_COMBOS[uChoice].includes(cChoice);
 }
 
 function playAgain() { //simplify this
