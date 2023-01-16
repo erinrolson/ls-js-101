@@ -106,8 +106,7 @@ function invalidNumber(number) {
 
 function checkUserNumber(number, errorMessage, allowDecimal = true) {
   while (allowDecimal ? invalidNumber(number) : invalidNumber(number) ||
-                                                (number % 1) > 0) 
-  {
+                                                (number % 1) > 0) {
     prompt(errorMessage);
     number = Number(readline.question());
   }
