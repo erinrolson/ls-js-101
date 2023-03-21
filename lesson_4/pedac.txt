@@ -1,0 +1,20 @@
+
+ 
+=============== PEDAC ==================
+ [P]roblem (Understanding the)
+ 
+ Inputs: number representing total cubes
+ 
+ Outputs: # of cubes left over when a valid structure is made from the blocks
+ 
+ Requirements:
+    
+    Explicit:
+      1) blocks are cubes
+      2) structure is built in layers - what is a layer???
+      3) top layer is a single block
+      4) block in upper layer must be supported by four blocks in a lower layer???
+      5) no gaps
+    
+    Implicit:
+      2) 
