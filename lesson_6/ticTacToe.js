@@ -120,35 +120,47 @@ function detectWinner(board) {
   return null;
 }
 
+function matchWon(scoreObj) {
+  if( scoreObj['Player'] === 5) return 'Player';
+  if ( scoreObj['Computer'] === 5) return 'Computer';
+  return false;
+}
+
 while (true) {
-  let gameBoard = initializeBoard();
   
   let score = { 'Player' : 0, 'Computer' : 0 };
   
-  while(true) {
+  while (true) {
+    let gameBoard = initializeBoard();
+  
+    while(true) {
+      displayBoard(gameBoard);
+    
+      playerChoosesSquare(gameBoard);
+      if ( someoneWon(gameBoard) || fullBoard(gameBoard) ) break;
+    
+     computerChoosesSquare(gameBoard);
+      if ( someoneWon(gameBoard) || fullBoard(gameBoard) ) break;
+    }
+  
     displayBoard(gameBoard);
   
-    playerChoosesSquare(gameBoard);
-    if ( someoneWon(gameBoard) || fullBoard(gameBoard) ) break;
-  
-   computerChoosesSquare(gameBoard);
-    if ( someoneWon(gameBoard) || fullBoard(gameBoard) ) break;
-}
-
-  displayBoard(gameBoard);
-
-  if (someoneWon(gameBoard)) {
-    prompt(`${detectWinner(gameBoard)} won!`);
-    score[detectWinner(gameBoard)] = score[detectWinner(gameBoard)] + 1;
-  } else {
-    prompt("It's a tie!!!");
-  }
-  console.log(score);
-  ///need prompt to handle player winning a match based on score obj values...
-  prompt('Play again? Enter: y or n');
-  let answer = readline.question().toLowerCase()[0];
-  if (answer !== 'y') break; 
-  
+    if (someoneWon(gameBoard)) {
+      prompt(`${detectWinner(gameBoard)} won!`);
+      score[detectWinner(gameBoard)] = score[detectWinner(gameBoard)] + 1;
+    } else {
+      prompt("It's a tie!!!");
+    }
+    
+    if ( matchWon(score) ) {
+      prompt(`${matchWon(score)} has won the match!`);
+      score = { 'Player' : 0, 'Computer' : 0 };
+    }
+    prompt('Play again? Enter: y or n');
+    let answer = readline.question().toLowerCase()[0];
+    if (answer !== 'y') break; 
+    }
+  break;
 }
 
 prompt('Thanks for playing Tic Tac Toe!');
