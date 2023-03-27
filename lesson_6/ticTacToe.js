@@ -11,6 +11,34 @@ const HUMAN_MARKER = 'X';
 const COMPUTER_MARKER = 'O';
 const MATCH = 5;
 
+const WINNING_LINES = [
+  [1, 2, 3], [4, 5, 6], [7, 8, 9], // rows
+  [1, 4, 7], [2, 5, 8], [3, 6, 9], // columns
+  [1, 5, 9], [3, 5, 7]             // diagonals
+  ];
+
+function computerDefensePlay(board) {
+  let humanChoices=
+        Object.keys(
+        Object.fromEntries(
+        Object.entries(board).filter( ele => ele[1] === HUMAN_MARKER)))
+        .map( ele => Number(ele));
+  
+  for (let line of WINNING_LINES) {
+    let winningLineMatches = [];
+    for (let choice of humanChoices) {
+      
+      if (line.includes(choice)) {
+        winningLineMatches.push(choice);
+      }
+      if (winningLineMatches.length === 2) {
+        return line.filter( ele => !winningLineMatches.includes(ele) )[0];
+      }
+    }
+  }
+  return '';
+}
+
 function prompt(message) {
   console.log(`=> ${message}`);
 }
@@ -73,16 +101,21 @@ function playerChoosesSquare(board) {
     
     prompt('Not a valid choice, try again!');
   }
-  board[playerChoice] = 'X';
+  board[playerChoice] = HUMAN_MARKER;
 }
 
 function computerChoosesSquare(board) {
-  let validChoices = emptySquares(board);
+  if ( computerDefensePlay(board) ) {
+    board[computerDefensePlay(board)] = COMPUTER_MARKER;
+  } else {
+    
+    let validChoices = emptySquares(board);
   
-  let randomIndex = Math.floor( Math.random() * validChoices.length );
-  
-  let square = validChoices[randomIndex];
-  board[square] = COMPUTER_MARKER;
+    let randomIndex = Math.floor( Math.random() * validChoices.length );
+    
+    let square = validChoices[randomIndex];
+    board[square] = COMPUTER_MARKER;
+  }
 }
 
 function someoneWon(board) {
@@ -94,14 +127,9 @@ function fullBoard(board){
 }
 
 function detectWinner(board) {
-  let winningLines = [
-  [1, 2, 3], [4, 5, 6], [7, 8, 9], // rows
-  [1, 4, 7], [2, 5, 8], [3, 6, 9], // columns
-  [1, 5, 9], [3, 5, 7]             // diagonals
-  ];
   
-  for (let line = 0; line < winningLines.length; line++) {
-    let [ sq1, sq2, sq3 ] = winningLines[line];
+  for (let line = 0; line < WINNING_LINES.length; line++) {
+    let [ sq1, sq2, sq3 ] = WINNING_LINES[line];
     
     if (
       board[sq1] === HUMAN_MARKER &&
@@ -135,12 +163,13 @@ while (true) {
   
     while(true) {
       displayBoard(gameBoard);
-    
+      console.log({gameBoard});
       playerChoosesSquare(gameBoard);
       if ( someoneWon(gameBoard) || fullBoard(gameBoard) ) break;
     
      computerChoosesSquare(gameBoard);
       if ( someoneWon(gameBoard) || fullBoard(gameBoard) ) break;
+      
     }
   
     displayBoard(gameBoard);
