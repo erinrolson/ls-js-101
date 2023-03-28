@@ -96,19 +96,26 @@ function playerChoosesSquare(board) {
 
 function computerChoosesSquare(board) {
   let square;
-  // find a defensive play first
+ 
+ // find offensive play
   for (let index = 0; index < WINNING_LINES.length; index++) {
-    let line = WINNING_LINES[index];
-    square = findAtRiskSquare(line, board, HUMAN_MARKER);
-    if (square) break;
-  }
-  
-  if (!square) {
-    for (let index = 0; index < WINNING_LINES.length; index++) {
     let line = WINNING_LINES[index];
     square = findAtRiskSquare(line, board, COMPUTER_MARKER);
     if (square) break;
+  }
+
+  if (!square) {
+    // find a defensive play second
+    for (let index = 0; index < WINNING_LINES.length; index++) {
+      let line = WINNING_LINES[index];
+      square = findAtRiskSquare(line, board, HUMAN_MARKER);
+      if (square) break;
     }
+  }
+  
+  // if square 5 is open, take it!
+  if( emptySquares(board).includes('5') ) {
+    square = '5';
   }
   
   if (!square) {
