@@ -17,26 +17,16 @@ const WINNING_LINES = [
   [1, 5, 9], [3, 5, 7]             // diagonals
   ];
 
-function computerDefensePlay(board) {
-  let humanChoices=
-        Object.keys(
-        Object.fromEntries(
-        Object.entries(board).filter( ele => ele[1] === HUMAN_MARKER)))
-        .map( ele => Number(ele));
-  
-  for (let line of WINNING_LINES) {
-    let winningLineMatches = [];
-    for (let choice of humanChoices) {
-      
-      if (line.includes(choice)) {
-        winningLineMatches.push(choice);
-      }
-      if (winningLineMatches.length === 2) {
-        return line.filter( ele => !winningLineMatches.includes(ele) )[0];
-      }
+// returns the square value of an open space in a nearly won line
+function findAtRiskSquare(line, board) {
+  let markersInLine = line.map( square => board[square] );
+  if (markersInLine.filter( val => val === HUMAN_MARKER).length === 2) {
+    let unusedSquare = line.find( square => board[square] === INITIAL_MARKER);
+    if (unusedSquare !== undefined) {
+      return unusedSquare;
     }
   }
-  return '';
+  return null;
 }
 
 function prompt(message) {
@@ -105,17 +95,19 @@ function playerChoosesSquare(board) {
 }
 
 function computerChoosesSquare(board) {
-  if ( computerDefensePlay(board) ) {
-    board[computerDefensePlay(board)] = COMPUTER_MARKER;
-  } else {
-    
-    let validChoices = emptySquares(board);
-  
-    let randomIndex = Math.floor( Math.random() * validChoices.length );
-    
-    let square = validChoices[randomIndex];
-    board[square] = COMPUTER_MARKER;
+  let square;
+  for (let index = 0; index < WINNING_LINES.length; index++) {
+    let line = WINNING_LINES[index];
+    square = findAtRiskSquare(line, board);
+    if (square) break;
   }
+  
+  if (!square) {
+    let randomIndex = Math.floor( Math.random() * emptySquares(board).length );
+    square = emptySquares(board)[randomIndex];
+  }
+  
+  board[square] = COMPUTER_MARKER;
 }
 
 function someoneWon(board) {
@@ -163,11 +155,11 @@ while (true) {
   
     while(true) {
       displayBoard(gameBoard);
-      console.log({gameBoard});
+      
       playerChoosesSquare(gameBoard);
       if ( someoneWon(gameBoard) || fullBoard(gameBoard) ) break;
-    
-     computerChoosesSquare(gameBoard);
+      
+      computerChoosesSquare(gameBoard);
       if ( someoneWon(gameBoard) || fullBoard(gameBoard) ) break;
       
     }
