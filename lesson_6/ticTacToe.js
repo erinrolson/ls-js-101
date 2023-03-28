@@ -18,9 +18,9 @@ const WINNING_LINES = [
   ];
 
 // returns the square value of an open space in a nearly won line
-function findAtRiskSquare(line, board) {
+function findAtRiskSquare(line, board, marker) {
   let markersInLine = line.map( square => board[square] );
-  if (markersInLine.filter( val => val === HUMAN_MARKER).length === 2) {
+  if (markersInLine.filter( val => val === marker).length === 2) {
     let unusedSquare = line.find( square => board[square] === INITIAL_MARKER);
     if (unusedSquare !== undefined) {
       return unusedSquare;
@@ -96,10 +96,19 @@ function playerChoosesSquare(board) {
 
 function computerChoosesSquare(board) {
   let square;
+  // find a defensive play first
   for (let index = 0; index < WINNING_LINES.length; index++) {
     let line = WINNING_LINES[index];
-    square = findAtRiskSquare(line, board);
+    square = findAtRiskSquare(line, board, HUMAN_MARKER);
     if (square) break;
+  }
+  
+  if (!square) {
+    for (let index = 0; index < WINNING_LINES.length; index++) {
+    let line = WINNING_LINES[index];
+    square = findAtRiskSquare(line, board, COMPUTER_MARKER);
+    if (square) break;
+    }
   }
   
   if (!square) {
