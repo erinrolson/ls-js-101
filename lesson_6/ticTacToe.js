@@ -4,6 +4,7 @@ player takes a turn and marks a square on the board. The first player to get 3
 squares in a row–horizontal, vertical, or diagonal–wins. If all 9 squares are 
 filled and neither player has 3 in a row, the game is a tie.
 */
+
 const readline = require('readline-sync');
 
 const INITIAL_MARKER = ' ';
@@ -162,6 +163,16 @@ function matchWon(scoreObj) {
   return false;
 }
 
+function playAgain() {
+  prompt('Do you want to play again? Enter: y or n');
+  while (true) {
+    let answer = readline.question().toLowerCase()[0];
+    if (answer === 'y') return true;
+    if (answer === 'n') return false;
+    prompt('Please enter a valid character :)');
+  }
+}
+
 while (true) {
   
   let score = { 'Player' : 0, 'Computer' : 0 };
@@ -193,17 +204,9 @@ while (true) {
       prompt(`${matchWon(score)} has won the match!`);
       score = { 'Player' : 0, 'Computer' : 0 };
     }
-    prompt('Play again? Enter: y or n');
-    let answer = readline.question().toLowerCase()[0];
-    if (answer !== 'y') break; 
+    if (!playAgain()) break;
     }
   break;
 }
 
 prompt('Thanks for playing Tic Tac Toe!');
-
-
-
-
-
-
