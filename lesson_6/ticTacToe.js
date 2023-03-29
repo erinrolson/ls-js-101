@@ -173,22 +173,31 @@ function playAgain() {
   }
 }
 
+function chooseSquare(board, currentPlayer) {
+  if (currentPlayer === 'Player') {
+    playerChoosesSquare(board);
+  } else {
+    computerChoosesSquare(board); 
+  }
+}
+
+function alternatePlayer(player) {
+  return (player === 'Player') ? 'Computer' : 'Player';
+}
+
 while (true) {
   
   let score = { 'Player' : 0, 'Computer' : 0 };
   
   while (true) {
     let gameBoard = initializeBoard();
-  
+    let currentPlayer = 'Player';
+    
     while(true) {
       displayBoard(gameBoard);
-      
-      playerChoosesSquare(gameBoard);
+      chooseSquare(gameBoard, currentPlayer);
+      currentPlayer = alternatePlayer(currentPlayer);
       if ( someoneWon(gameBoard) || fullBoard(gameBoard) ) break;
-      
-      computerChoosesSquare(gameBoard);
-      if ( someoneWon(gameBoard) || fullBoard(gameBoard) ) break;
-      
     }
   
     displayBoard(gameBoard);
