@@ -21,8 +21,8 @@ function timeOfDay(deltaMinutes) {
 
   let hours = Math.floor(deltaMinutes / MINUTES_PER_HOUR);
   let minutes = deltaMinutes % MINUTES_PER_HOUR;
-  console.log({hours}, {minutes});
+  
   return formatTime(hours, minutes);
 }
 
-console.log(timeOfDay(-1437));
+console.log(timeOfDay(754));
