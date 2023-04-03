@@ -49,30 +49,31 @@ const ACE_MAX = 11;
 const ACE_MIN = 1;
 const FACE_CARD_VALUE = 10;
 const FACE_CARDS = ['J', 'Q', 'K'];
-const DECK = {
-//cd     #  val
-  2   : [['2', 'H'], ['2', 'D'], ['2', 'S'], ['2', 'C']],
-  3   : [['3', 'H'], ['3', 'D'], ['3', 'S'], ['3', 'C']],
-  4   : [['4', 'H'], ['4', 'D'], ['4', 'S'], ['4', 'C']],
-  5   : [['5', 'H'], ['5', 'D'], ['5', 'S'], ['5', 'C']],
-  6   : [['6', 'H'], ['6', 'D'], ['6', 'S'], ['6', 'C']],
-  7   : [['7', 'H'], ['7', 'D'], ['7', 'S'], ['7', 'C']],
-  8   : [['8', 'H'], ['8', 'D'], ['8', 'S'], ['8', 'C']],
-  9   : [['9', 'H'], ['9', 'D'], ['9', 'S'], ['9', 'C']],
-  10  : [['10','H'], ['10', 'D'],['10', 'S'],['10', 'C']],
-  'J' : [['J', 'H'], ['J', 'D'], ['J', 'S'], ['J', 'C']],
-  'Q' : [['Q', 'H'], ['Q', 'D'], ['K', 'S'], ['Q', 'C']],
-  'K' : [['K', 'H'], ['K', 'D'], ['Q', 'S'], ['K', 'C']],
-  'A' : [['A', 'H'], ['A', 'D'], ['A', 'S'], ['A', 'C']]
-};
 
-let playerHand = [];
-let dealerHand = [];
+const DECK = [
+  ['2', 'H'], ['2', 'D'], ['2', 'S'], ['2', 'C'],
+  ['3', 'H'], ['3', 'D'], ['3', 'S'], ['3', 'C'],
+  ['4', 'H'], ['4', 'D'], ['4', 'S'], ['4', 'C'],
+  ['5', 'H'], ['5', 'D'], ['5', 'S'], ['5', 'C'],
+  ['6', 'H'], ['6', 'D'], ['6', 'S'], ['6', 'C'],
+  ['7', 'H'], ['7', 'D'], ['7', 'S'], ['7', 'C'],
+  ['8', 'H'], ['8', 'D'], ['8', 'S'], ['8', 'C'],
+  ['9', 'H'], ['9', 'D'], ['9', 'S'], ['9', 'C'],
+  ['10','H'], ['10', 'D'],['10', 'S'],['10', 'C'],
+  ['J', 'H'], ['J', 'D'], ['J', 'S'], ['J', 'C'],
+  ['Q', 'H'], ['Q', 'D'], ['Q', 'S'], ['Q', 'C'],
+  ['K', 'H'], ['K', 'D'], ['K', 'S'], ['K', 'C'],
+  ['A', 'H'], ['A', 'D'], ['A', 'S'], ['A', 'C']
+];
+
+function randomIndex(maxIndex) {
+  return Math.floor(Math.random() * (maxIndex + 1)); // 0 to maxIndex
+}
 
 function calculateHandValue(hand) {
   let handTotal = 0;
   
-  // do some generall adding of cards
+  // do some general adding of cards
   hand.forEach( card => {
     if (card[0] === 'A') handTotal += ACE_MAX ;
     else if (FACE_CARDS.includes(card[0])) handTotal += FACE_CARD_VALUE;
@@ -89,30 +90,94 @@ function calculateHandValue(hand) {
   return handTotal;
 }
 
-function busted(value) {
-  return value > WINNING_HAND_VALUE ? true : false;
+function winningHand(hand) {
+  return calculateHandValue(hand) === WINNING_HAND_VALUE;
 }
 
-// shuffles an array of nested array elements ---> my deck is an obj, needs adj
+function busted(value) {
+  return value > WINNING_HAND_VALUE;
+}
+
 function shuffle(array) {
   for (let index = array.length - 1; index > 0; index--) {
-    let otherIndex = Math.floor(Math.random() * (index + 1)); // 0 to index
+    let otherIndex = randomIndex(index); 
     [array[index], array[otherIndex]] = [array[otherIndex], array[index]]; // swap elements
   }
+}
+
+// remove the first card from the deck and place it in the corresponding hand
+function dealCard(deck, hand) {
+  hand.push(deck.shift());
+}
+
+// deal starting hands to the player and dealer
+function dealHand(deck, hand_1, hand_2) {
+  for (let count = 1; count < 3; count++) {
+    dealCard(deck, hand_1);
+    dealCard(deck, hand_2);
+  }
+}
+
+function displayPlayerHand(hand) {
+  console.log(`Players hand ${hand[0][0]}, ${hand[1][0]}`);
+  console.log(`player hand value: ${calculateHandValue(hand)}`);
+}
+
+function displayDealerHand(hand) {
+  console.log(`Dealers last dealt card: ${hand[1][0]}`);
+}
+
+//shuffle the deck
+shuffle(DECK);
+
+//deal cards to the player and dealer
+let playerHand = [];
+let dealerHand = [];
+
+dealHand(DECK, playerHand, dealerHand);
+
+//display the players hand
+displayPlayerHand(playerHand);
+
+//display the dealers last dealt card
+displayDealerHand(dealerHand);
+
+//if the player or dealer is dealt 21 does that player win immediately?
+if (winningHand(playerHand) && winningHand(dealerHand)) {
+  console.log('Its a tie!');
+} else if (winningHand(playerHand)) {
+  console.log(`Player has won the game!`);
+} else if (winningHand(dealerHand)) {
+  console.log('Dealer has won the game!');
 }
 
 // player hand...
 while (true) {
   console.log("Do you want to HIT or STAY?");
   let answer = readline.question();
-  if ( answer === 'stay' || busted(calculateHandValue(playerHand)) ) {
+  //if ( answer === 'stay' || busted(calculateHandValue(playerHand)) ) {
+  if ( answer === 'stay') {
     break;
   }
+  // deal the player a card and display player hand to them
+  dealCard(DECK, playerHand);
+  displayPlayerHand(playerHand);
+  if (busted(calculateHandValue(playerHand))) {
+    break;
+  }
+  
 }
 
 if ( busted(calculateHandValue(playerHand))) {
   // dealer won the game
-} else {
-  // now the dealers turn
-  // must continue HITTING until hand value is at least 17
+  console.log('The dealer has won the game! Player busted!');
+} else { // dealers turn
+  while (true) {
+    if (calculateHandValue(dealerHand) < 17) {
+      dealCard(DECK, dealerHand);
+    } else break;
+  }
 }
+
+// check for winner???
+
